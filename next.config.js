@@ -1,11 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Static export for GitHub Pages
+  output: 'export',
+  trailingSlash: true,
+  
   // Performance optimizations
   compress: true,
   poweredByHeader: false,
   
   // Image optimization
   images: {
+    unoptimized: true,
     domains: ['localhost', '127.0.0.1'],
     formats: ['image/webp', 'image/avif'],
   },
