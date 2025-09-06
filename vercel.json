@@ -1,12 +1,4 @@
 {
   "version": 2,
-  "buildCommand": "cd app && npm run build",
-  "outputDirectory": "app/.next",
-  "installCommand": "cd app && npm install",
-  "framework": "nextjs",
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@api_url",
-    "NEXT_PUBLIC_COGNITO_DOMAIN": "@cognito_domain",
-    "NEXT_PUBLIC_COGNITO_CLIENT_ID": "@cognito_client_id"
-  }
+  "framework": "nextjs"
 }
