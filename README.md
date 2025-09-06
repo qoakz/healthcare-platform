@@ -37,6 +37,12 @@ A comprehensive HIPAA-compliant healthcare platform with patient management, doc
 
 ## 🚀 Quick Start
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/healthcare-platform&env=NEXT_PUBLIC_API_URL,NEXT_PUBLIC_COGNITO_DOMAIN,NEXT_PUBLIC_COGNITO_CLIENT_ID&envDescription=Environment%20variables%20needed%20for%20the%20frontend&project-name=healthcare-platform)
+
+[![Deploy to Railway](https://railway.app/button.svg)](https://railway.app/template/your-template-id?referralCode=your-code)
+
+[![Deploy with Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/YOUR_USERNAME/healthcare-platform)
+
 ### Prerequisites
 - Node.js 18+
 - Python 3.11+
@@ -115,19 +121,59 @@ NEXT_PUBLIC_COGNITO_CLIENT_ID=your-client-id
 
 ## 🚀 Deployment
 
-### Frontend (Vercel)
-1. Connect your GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+### Option 1: One-Click Deploy (Recommended)
 
-### Backend (Railway/Render)
-1. Connect your GitHub repository
-2. Set environment variables
-3. Deploy automatically
+**Frontend (Vercel):**
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/healthcare-platform&env=NEXT_PUBLIC_API_URL,NEXT_PUBLIC_COGNITO_DOMAIN,NEXT_PUBLIC_COGNITO_CLIENT_ID&envDescription=Environment%20variables%20needed%20for%20the%20frontend&project-name=healthcare-platform)
 
-### Docker Deployment
+**Backend (Railway):**
+[![Deploy to Railway](https://railway.app/button.svg)](https://railway.app/template/your-template-id?referralCode=your-code)
+
+### Option 2: Manual Deployment
+
+#### Frontend (Vercel)
+1. **Fork this repository** to your GitHub account
+2. **Go to [vercel.com](https://vercel.com)** and sign in with GitHub
+3. **Click "New Project"** and import your forked repository
+4. **Configure:**
+   - Framework: Next.js
+   - Root Directory: `app`
+   - Build Command: `npm run build`
+5. **Set Environment Variables:**
+   - `NEXT_PUBLIC_API_URL` = Your backend URL (e.g., `https://your-app.railway.app`)
+   - `NEXT_PUBLIC_COGNITO_DOMAIN` = Your AWS Cognito domain
+   - `NEXT_PUBLIC_COGNITO_CLIENT_ID` = Your Cognito client ID
+6. **Deploy!**
+
+#### Backend (Railway)
+1. **Go to [railway.app](https://railway.app)** and sign in with GitHub
+2. **Click "New Project"** → "Deploy from GitHub repo"
+3. **Select your forked repository**
+4. **Configure:**
+   - Root Directory: `api`
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `python manage.py migrate && python manage.py runserver 0.0.0.0:$PORT`
+5. **Set Environment Variables:**
+   ```env
+   SECRET_KEY=your-secret-key-here
+   DEBUG=False
+   ALLOWED_HOSTS=your-app.railway.app
+   DATABASE_URL=postgresql://... (Railway provides this)
+   REDIS_URL=redis://... (Railway provides this)
+   ```
+6. **Deploy!**
+
+### Option 3: Docker Deployment
 ```bash
-# Build and run with Docker Compose
+# Clone repository
+git clone https://github.com/YOUR_USERNAME/healthcare-platform.git
+cd healthcare-platform
+
+# Set environment variables
+cp api/env.example api/.env
+# Edit api/.env with your configuration
+
+# Deploy with Docker Compose
 docker-compose -f docker-compose.prod.yml up -d
 ```
 
