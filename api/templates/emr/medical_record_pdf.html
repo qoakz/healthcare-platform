@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Record - {{ patient.get_full_name }}</title>
+</head>
+<body>
+    <div class="header">
+        <div class="clinic-name">Healthcare Platform</div>
+        <div style="font-size: 10px; color: #666;">
+            123 Medical Center Drive | Healthcare City, HC 12345 | (555) 123-4567
+        </div>
+    </div>
+    
+    <div class="record-title">MEDICAL RECORD</div>
+    
+    <div class="info-grid">
+        <div class="info-item">
+            <span class="info-label">Patient:</span>
+            <span class="info-value">{{ patient.get_full_name }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">DOB:</span>
+            <span class="info-value">{{ patient.date_of_birth|date:"F d, Y" }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Gender:</span>
+            <span class="info-value">{{ patient.get_gender_display }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Phone:</span>
+            <span class="info-value">{{ patient.phone_number }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Doctor:</span>
+            <span class="info-value">Dr. {{ doctor.get_full_name }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Date:</span>
+            <span class="info-value">{{ medical_record.created_at|date:"F d, Y" }}</span>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">Chief Complaint</div>
+        <div class="section-content">
+            <p>{{ medical_record.chief_complaint }}</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">History of Present Illness</div>
+        <div class="section-content">
+            <p>{{ medical_record.history_of_present_illness }}</p>
+        </div>
+    </div>
+    
+    {% if medical_record.past_medical_history %}
+    <div class="section">
+        <div class="section-title">Past Medical History</div>
+        <div class="section-content">
+            <p>{{ medical_record.past_medical_history }}</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if medical_record.family_history %}
+    <div class="section">
+        <div class="section-title">Family History</div>
+        <div class="section-content">
+            <p>{{ medical_record.family_history }}</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if medical_record.social_history %}
+    <div class="section">
+        <div class="section-title">Social History</div>
+        <div class="section-content">
+            <p>{{ medical_record.social_history }}</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if vital_signs %}
+    <div class="section">
+        <div class="section-title">Vital Signs</div>
+        <div class="section-content">
+            <div class="vital-signs-grid">
+                {% for vital in vital_signs %}
+                    {% if vital.blood_pressure_systolic %}
+                    <div class="vital-item">
+                        <div class="vital-label">Blood Pressure</div>
+                        <div class="vital-value">{{ vital.blood_pressure_systolic }}/{{ vital.blood_pressure_diastolic }}</div>
+                    </div>
+                    {% endif %}
+                    {% if vital.heart_rate %}
+                    <div class="vital-item">
+                        <div class="vital-label">Heart Rate</div>
+                        <div class="vital-value">{{ vital.heart_rate }} bpm</div>
+                    </div>
+                    {% endif %}
+                    {% if vital.temperature %}
+                    <div class="vital-item">
+                        <div class="vital-label">Temperature</div>
+                        <div class="vital-value">{{ vital.temperature }}°F</div>
+                    </div>
+                    {% endif %}
+                    {% if vital.respiratory_rate %}
+                    <div class="vital-item">
+                        <div class="vital-label">Respiratory Rate</div>
+                        <div class="vital-value">{{ vital.respiratory_rate }} /min</div>
+                    </div>
+                    {% endif %}
+                    {% if vital.oxygen_saturation %}
+                    <div class="vital-item">
+                        <div class="vital-label">Oxygen Saturation</div>
+                        <div class="vital-value">{{ vital.oxygen_saturation }}%</div>
+                    </div>
+                    {% endif %}
+                    {% if vital.weight %}
+                    <div class="vital-item">
+                        <div class="vital-label">Weight</div>
+                        <div class="vital-value">{{ vital.weight }} kg</div>
+                    </div>
+                    {% endif %}
+                    {% if vital.height %}
+                    <div class="vital-item">
+                        <div class="vital-label">Height</div>
+                        <div class="vital-value">{{ vital.height }} cm</div>
+                    </div>
+                    {% endif %}
+                    {% if vital.bmi %}
+                    <div class="vital-item">
+                        <div class="vital-label">BMI</div>
+                        <div class="vital-value">{{ vital.bmi }}</div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="section">
+        <div class="section-title">Physical Examination</div>
+        <div class="section-content">
+            <p>{{ medical_record.physical_examination }}</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">Diagnosis</div>
+        <div class="section-content">
+            <p>{{ medical_record.diagnosis }}</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">Treatment Plan</div>
+        <div class="section-content">
+            <p>{{ medical_record.treatment_plan }}</p>
+        </div>
+    </div>
+    
+    {% if prescriptions %}
+    <div class="section">
+        <div class="section-title">Prescriptions</div>
+        <div class="section-content">
+            {% for prescription in prescriptions %}
+            <div class="prescription-item">
+                <div class="medication-name">{{ prescription.medication_name }}</div>
+                <div class="medication-details">
+                    <strong>Dosage:</strong> {{ prescription.dosage }} | 
+                    <strong>Frequency:</strong> {{ prescription.frequency }} | 
+                    <strong>Duration:</strong> {{ prescription.duration }} | 
+                    <strong>Quantity:</strong> {{ prescription.quantity }}
+                    {% if prescription.instructions %}
+                    <br><strong>Instructions:</strong> {{ prescription.instructions }}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if lab_results %}
+    <div class="section">
+        <div class="section-title">Lab Results</div>
+        <div class="section-content">
+            {% for lab_result in lab_results %}
+            <div class="lab-result-item">
+                <div class="test-name">{{ lab_result.test_name }}</div>
+                <div class="test-details">
+                    <strong>Type:</strong> {{ lab_result.test_type }} | 
+                    <strong>Date:</strong> {{ lab_result.test_date|date:"M d, Y" }} | 
+                    <strong>Status:</strong> {{ lab_result.get_status_display }}
+                    {% if lab_result.interpretation %}
+                    <br><strong>Interpretation:</strong> {{ lab_result.interpretation }}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if medical_record.notes %}
+    <div class="section">
+        <div class="section-title">Additional Notes</div>
+        <div class="section-content">
+            <p>{{ medical_record.notes }}</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if medical_record.follow_up_required %}
+    <div class="section">
+        <div class="section-title">Follow-up</div>
+        <div class="section-content">
+            <p><strong>Follow-up required:</strong> Yes</p>
+            {% if medical_record.follow_up_date %}
+            <p><strong>Follow-up date:</strong> {{ medical_record.follow_up_date|date:"F d, Y" }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="footer">
+        <p>This medical record was generated on {{ generated_at|date:"F d, Y \a\t g:i A" }}</p>
+        <p>Record ID: {{ record_id }}</p>
+        <p>For questions or concerns, please contact your healthcare provider.</p>
+    </div>
+</body>
+</html>
+

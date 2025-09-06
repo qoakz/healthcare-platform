@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <div id="status">Not connected</div>
+    <div id="messages"></div>
+    
+    <script>
+        const status = document.getElementById('status');
+        const messages = document.getElementById('messages');
+        
+        function addMessage(msg) {
+            const div = document.createElement('div');
+            div.textContent = new Date().toLocaleTimeString() + ': ' + msg;
+            messages.appendChild(div);
+        }
+        
+        const ws = new WebSocket('ws://localhost:8000/ws/rtc/test-room-123/');
+        
+        ws.onopen = function(event) {
+            status.textContent = 'Connected';
+            status.style.color = 'green';
+            addMessage('WebSocket connected');
+        };
+        
+        ws.onclose = function(event) {
+            status.textContent = 'Disconnected';
+            status.style.color = 'red';
+            addMessage('WebSocket disconnected: ' + event.code + ' ' + event.reason);
+        };
+        
+        ws.onerror = function(error) {
+            status.textContent = 'Error';
+            status.style.color = 'red';
+            addMessage('WebSocket error: ' + error);
+        };
+        
+        ws.onmessage = function(event) {
+            addMessage('Received: ' + event.data);
+        };
+        
+        // Send a test message after 2 seconds
+        setTimeout(() => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'rtc_signal',
+                    signal_type: 'test',
+                    payload: 'hello'
+                }));
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
+

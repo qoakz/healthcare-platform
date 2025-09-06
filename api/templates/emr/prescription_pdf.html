@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription - {{ prescription.medication_name }}</title>
+</head>
+<body>
+    <div class="prescription-id">ID: {{ prescription_id }}</div>
+    
+    <div class="header">
+        <div class="clinic-name">Healthcare Platform</div>
+        <div class="clinic-address">
+            123 Medical Center Drive<br>
+            Healthcare City, HC 12345<br>
+            Phone: (555) 123-4567 | Email: info@healthcareplatform.com
+        </div>
+    </div>
+    
+    <div class="prescription-title">PRESCRIPTION</div>
+    
+    <div class="info-grid">
+        <div class="patient-info">
+            <h3>Patient Information</h3>
+            <div class="info-row">
+                <span class="info-label">Name:</span>
+                <span class="info-value">{{ patient.get_full_name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Date of Birth:</span>
+                <span class="info-value">{{ patient.date_of_birth|date:"F d, Y" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Gender:</span>
+                <span class="info-value">{{ patient.get_gender_display }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Phone:</span>
+                <span class="info-value">{{ patient.phone_number }}</span>
+            </div>
+        </div>
+        
+        <div class="doctor-info">
+            <h3>Prescribing Doctor</h3>
+            <div class="info-row">
+                <span class="info-label">Name:</span>
+                <span class="info-value">Dr. {{ doctor.get_full_name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Specialty:</span>
+                <span class="info-value">{{ doctor.specialty }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">License:</span>
+                <span class="info-value">{{ doctor.license_number }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Date:</span>
+                <span class="info-value">{{ prescription.created_at|date:"F d, Y" }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="medication-details">
+        <div class="medication-name">{{ prescription.medication_name }}</div>
+        {% if prescription.generic_name %}
+        <div style="font-size: 12px; color: #6b7280; margin-bottom: 10px;">
+            Generic: {{ prescription.generic_name }}
+        </div>
+        {% endif %}
+        
+        <div class="medication-info">
+            <div class="medication-item">
+                <span class="medication-label">Dosage:</span>
+                <span>{{ prescription.dosage }}</span>
+            </div>
+            <div class="medication-item">
+                <span class="medication-label">Frequency:</span>
+                <span>{{ prescription.frequency }}</span>
+            </div>
+            <div class="medication-item">
+                <span class="medication-label">Duration:</span>
+                <span>{{ prescription.duration }}</span>
+            </div>
+            <div class="medication-item">
+                <span class="medication-label">Quantity:</span>
+                <span>{{ prescription.quantity }}</span>
+            </div>
+            <div class="medication-item">
+                <span class="medication-label">Refills:</span>
+                <span>{{ prescription.refills_allowed }}</span>
+            </div>
+            <div class="medication-item">
+                <span class="medication-label">Status:</span>
+                <span class="status-badge status-{{ prescription.status }}">{{ prescription.get_status_display }}</span>
+            </div>
+        </div>
+        
+        {% if prescription.instructions %}
+        <div class="instructions">
+            <h4>Instructions:</h4>
+            <p>{{ prescription.instructions }}</p>
+        </div>
+        {% endif %}
+        
+        {% if prescription.expiry_date %}
+        <div style="margin-top: 10px; font-size: 10px; color: #6b7280;">
+            <strong>Expires:</strong> {{ prescription.expiry_date|date:"F d, Y" }}
+        </div>
+        {% endif %}
+    </div>
+    
+    {% if medical_record.diagnosis %}
+    <div class="section">
+        <h3>Diagnosis</h3>
+        <p>{{ medical_record.diagnosis }}</p>
+    </div>
+    {% endif %}
+    
+    <div class="signature-section">
+        <div class="signature-box">
+            <div class="signature-line"></div>
+            <div class="signature-label">Doctor's Signature</div>
+        </div>
+        <div class="signature-box">
+            <div class="signature-line"></div>
+            <div class="signature-label">Date</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>This prescription is valid for 30 days from the date of issue.</p>
+        <p>Generated on {{ generated_at|date:"F d, Y \a\t g:i A" }}</p>
+        <p>For questions, contact your healthcare provider.</p>
+    </div>
+</body>
+</html>
+

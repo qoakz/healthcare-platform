@@ -1,0 +1,22 @@
+Healthcare Platform - Payment Confirmation
+
+Hello {{ patient_name }},
+
+Your payment has been processed successfully. Thank you for your payment!
+
+PAYMENT DETAILS:
+- Amount: ${{ amount }}
+- Transaction ID: {{ transaction_id }}
+- Appointment Date: {{ appointment_date }}
+- Doctor: Dr. {{ doctor_name }}
+
+Your payment has been securely processed and you will receive a receipt via email shortly.
+
+If you have any questions about this payment or need assistance, please don't hesitate to contact our support team.
+
+Thank you for choosing Healthcare Platform!
+
+If you have any questions, please contact us at support@healthcareplatform.com
+
+This is an automated message. Please do not reply to this email.
+

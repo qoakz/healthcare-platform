@@ -1,0 +1,31 @@
+Healthcare Platform - Appointment Reminder
+
+Hello {{ patient_name }},
+
+This is a friendly reminder about your upcoming appointment.
+
+APPOINTMENT DETAILS:
+- Doctor: Dr. {{ doctor_name }}
+- Date: {{ appointment_date }}
+- Time: {{ appointment_time }}
+- Type: {{ appointment_type }}
+{% if meeting_link and meeting_link != 'N/A' %}
+- Meeting Link: {{ meeting_link }}
+{% endif %}
+
+Please make sure to:
+- Arrive 10 minutes early
+- Bring a valid ID
+- Have your insurance information ready
+{% if meeting_link and meeting_link != 'N/A' %}
+- Test your camera and microphone for the video call
+{% endif %}
+
+If you need to reschedule or cancel, please contact us at least 24 hours in advance.
+
+Thank you for choosing Healthcare Platform!
+
+If you have any questions, please contact us at support@healthcareplatform.com
+
+This is an automated message. Please do not reply to this email.
+
