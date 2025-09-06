@@ -1,0 +1,77 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  frontend-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: app/package-lock.json
+    
+    - name: Install frontend dependencies
+      run: |
+        cd app
+        npm ci
+    
+    - name: Run frontend tests
+      run: |
+        cd app
+        npm run test --if-present
+    
+    - name: Build frontend
+      run: |
+        cd app
+        npm run build
+      env:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+        NEXT_PUBLIC_COGNITO_DOMAIN: https://demo.auth.us-east-1.amazoncognito.com
+        NEXT_PUBLIC_COGNITO_CLIENT_ID: demo-client-id
+
+  backend-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install backend dependencies
+      run: |
+        cd api
+        pip install -r requirements.txt
+    
+    - name: Run backend tests
+      run: |
+        cd api
+        python manage.py test --verbosity=2
+      env:
+        SECRET_KEY: test-secret-key
+        DEBUG: True
+        DATABASE_URL: sqlite:///test.db
+
+  build-status:
+    needs: [frontend-test, backend-test]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Build Status
+      run: |
+        echo "✅ Frontend build: ${{ needs.frontend-test.result }}"
+        echo "✅ Backend build: ${{ needs.backend-test.result }}"
+        echo "🚀 Healthcare Platform is ready for deployment!"
