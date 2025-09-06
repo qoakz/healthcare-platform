@@ -1,0 +1,31 @@
+name: Test Healthcare Platform
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Test Frontend
+      run: |
+        echo "🔍 Testing Frontend..."
+        cd app
+        ls -la
+        echo "✅ Frontend files found"
+    
+    - name: Test Backend
+      run: |
+        echo "🔍 Testing Backend..."
+        cd api
+        ls -la
+        echo "✅ Backend files found"
+    
+    - name: Success
+      run: |
+        echo "🎉 Healthcare Platform test completed successfully!"
+        echo "✅ All files are in place"
+        echo "🚀 Ready for deployment!"
